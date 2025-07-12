@@ -633,11 +633,29 @@
             }
         }
 
+
         function completeEvaluation() {
-            document.getElementById('evaluation-section').style.display = 'none';
-            document.getElementById('completion-message').style.display = 'block';
-            // Scroll to top when showing completion message
-            scrollToTop();
+    // Gửi dữ liệu lên Google Sheets
+    fetch("PASTE_WEBHOOK_URL_HERE", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(evaluationData)
+    })
+    .then(response => response.text())
+    .then(result => {
+        console.log("Đã gửi lên Google Sheets:", result);
+    })
+    .catch(error => {
+        console.error("Lỗi khi gửi dữ liệu:", error);
+    });
+
+    // Hiện thông báo hoàn tất
+    document.getElementById('evaluation-section').style.display = 'none';
+    document.getElementById('completion-message').style.display = 'block';
+    scrollToTop();
+
         }
 
         function exportToExcel() {
